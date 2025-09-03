@@ -29,7 +29,7 @@ plt.savefig('grafico_barras.png')
 plt.figure(figsize=(10,6))
 sns.scatterplot(x='Area',y='População',data=dashboard)
 plt.title('relação entre area e população')
-plt.xlabel('Area em km')
+plt.xlabel('Area em km', color='green')
 plt.ylabel('População(milhoes)')
 for i,txt in enumerate(dashboard.Cidade):
     plt.annotate(txt,(dashboard.Area[i],dashboard.População[i]))
