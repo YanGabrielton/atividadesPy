@@ -12,23 +12,23 @@ explorar_dados.head()
 
 # explorar_dados.isnull().sum()
 
-
+converterReceita=explorar_dados['RECEITA ORCAMENTARIA (LIQUIDA)'].str.replace(',','.').astype(float)
 
 dashboard=explorar_dados
 
 plt.figure(figsize=(10,6))
 plt.title('Dados Da ANTAQ')
-sns.scatterplot(x="ï»¿ANO",y="RECEITA ORCAMENTARIA (LIQUIDA)",data=dashboard)
+sns.barplot(x="ï»¿ANO",y=converterReceita,data=dashboard)
 plt.xlabel("Ano")
 plt.ylabel("Receita Orçamentária (Líquida)")
 plt.xticks(rotation=45)
 plt.tight_layout()
 plt.savefig('grafico_barras.png')
 
-
+#errorbar=none 
 plt.figure(figsize=(10,6))
 plt.title('Dados Da ANTAQ')
-sns.lineplot(x="ï»¿ANO",y="RECEITA ORCAMENTARIA (LIQUIDA)",data=dashboard)
+sns.lineplot(x="ï»¿ANO",y=converterReceita,data=dashboard)
 plt.xlabel("Ano")
 plt.ylabel("Receita Orçamentária (Líquida)")
 plt.xticks(rotation=45)
@@ -36,16 +36,13 @@ plt.tight_layout()
 plt.savefig('grafico_line.png')
 
 
-plt.figure(figsize=(10,6))
-plt.title('Dados Da ANTAQ')
-sns.boxplot(x="ï»¿ANO",y="RECEITA ORCAMENTARIA (LIQUIDA)",data=dashboard)
-plt.xlabel("Ano")
-plt.ylabel("Receita Orçamentária (Líquida)")
-plt.xticks(rotation=45)
-plt.tight_layout()
-plt.savefig('grafico_box.png')
+dashboard['RECEITA ORCAMENTARIA (LIQUIDA)'] = dashboard['RECEITA ORCAMENTARIA (LIQUIDA)'].str.replace(',', '.', regex=False).astype(float)
+valor_por_Ano = dashboard.groupby('ï»¿ANO')['RECEITA ORCAMENTARIA (LIQUIDA)'].sum().sort_values(ascending=False)
 
-print(explorar_dados.isnull().sum())
-
+plt.figure(figsize=(8, 8))
+plt.pie(valor_por_Ano, labels=valor_por_Ano.index, autopct='%1.2f%%', startangle=140)
+plt.title('Distribuição da Receita Orçamentária (Líquida) por Ano')
+plt.axis('equal') 
+plt.show()
 
 
